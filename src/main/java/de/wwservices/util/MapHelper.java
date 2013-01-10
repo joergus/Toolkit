@@ -1,5 +1,6 @@
 package de.wwservices.util;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,10 +16,11 @@ import java.util.TreeSet;
 public class MapHelper {
 
 	/**
-	 * Creates a set of all entries of the given map sorted by the value. 
-	 * Note that on same values the keys are compared additionally.
+	 * Creates a set of all entries of the given map sorted by the value. Note
+	 * that on same values the keys are compared additionally.
 	 * 
-	 * @param incomingMap the map to sort
+	 * @param incomingMap
+	 *            the map to sort
 	 * @return Set conatining sorted entries
 	 */
 	public static <K extends Comparable<K>, V extends Comparable<V>> Set<Entry<K, V>> sortedEntrySetByValue(
@@ -27,7 +29,9 @@ public class MapHelper {
 		Comparator<Entry<K, V>> entrySetComparator = new EntrySetComparator<K, V>();
 		Set<Entry<K, V>> sortedSet = new TreeSet<Entry<K, V>>(
 				entrySetComparator);
-		sortedSet.addAll(incomingMap.entrySet());
+		for (Entry<K, V> entry : incomingMap.entrySet()) {
+			sortedSet.add(entry);
+		}
 		return sortedSet;
 
 	}
@@ -41,7 +45,9 @@ public class MapHelper {
 	 * @param <V>
 	 */
 	private static class EntrySetComparator<K extends Comparable<K>, V extends Comparable<V>>
-			implements Comparator<Entry<K, V>> {
+			implements Serializable, Comparator<Entry<K, V>> {
+
+		private static final long serialVersionUID = 6845808240479551387L;
 
 		@Override
 		public int compare(Entry<K, V> o1, Entry<K, V> o2) {
@@ -64,11 +70,13 @@ public class MapHelper {
 	}
 
 	/**
-	 * Creates a set of all entries of the given map sorted by the value. 
-	 * Note that on same values the keys are compared additionally.
+	 * Creates a set of all entries of the given map sorted by the value. Note
+	 * that on same values the keys are compared additionally.
 	 * 
-	 * @param incomingMap the map to sort.
-	 * @param comparator the Comparator to compare the values
+	 * @param incomingMap
+	 *            the map to sort.
+	 * @param comparator
+	 *            the Comparator to compare the values
 	 * @return sorted Set.
 	 */
 	public static <K extends Comparable<K>, V> Set<Entry<K, V>> sortedEntrySetByValue(
@@ -78,7 +86,9 @@ public class MapHelper {
 				comparator);
 		Set<Entry<K, V>> sortedSet = new TreeSet<Entry<K, V>>(
 				entrySetComparator);
-		sortedSet.addAll(incomingMap.entrySet());
+		for (Entry<K, V> entry : incomingMap.entrySet()) {
+			sortedSet.add(entry);
+		}
 		return sortedSet;
 
 	}
@@ -92,8 +102,10 @@ public class MapHelper {
 	 * @param <V>
 	 */
 	private static class EntrySetComparator2<K extends Comparable<K>, V>
-			implements Comparator<Entry<K, V>> {
+			implements Serializable, Comparator<Entry<K, V>> {
 
+		private static final long serialVersionUID = 5295616358725924256L;
+		
 		private Comparator<V> comp;
 
 		EntrySetComparator2(Comparator<V> comparator) {
@@ -119,5 +131,5 @@ public class MapHelper {
 
 		}
 	}
-	
+
 }
