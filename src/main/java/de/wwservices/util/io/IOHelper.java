@@ -11,7 +11,7 @@ import java.io.StringWriter;
 import java.net.URI;
 
 /**
- * Util Klasse für den Umgang mit Dateien und Streams.
+ * Util Klasse fÃ¼r den Umgang mit Dateien und Streams.
  * 
  * @author joergw
  * 
@@ -36,7 +36,7 @@ public class IOHelper
   }
   
   /**
-   * Liest eine Datei von einer URI ein und verwendet dafür UTF-8 encoding.
+   * Liest eine Datei von einer URI ein und verwendet dafï¿½r UTF-8 encoding.
    * 
    * @param fileName die URI der Datei.
    * @return
@@ -67,10 +67,10 @@ public class IOHelper
   }
 
   /**
-   * Schließt einen Stream oder File oder andere Objekte die {@link Closeable}
+   * SchlieÃŸt einen Stream oder File oder andere Objekte die {@link Closeable}
    * implementieren.
    * 
-   * @param closeable das zu schließende Objekt
+   * @param closeable das zu schlieï¿½ende Objekt
    */
   public static final void close(Closeable closeable)
   {

@@ -21,8 +21,7 @@ public class MapHelper
    * Creates a set of all entries of the given map sorted by the value. Note
    * that on same values the keys are compared additionally.
    * 
-   * @param incomingMap
-   *            the map to sort
+   * @param incomingMap the map to sort
    * @return Set conatining sorted entries
    */
   public static <K extends Comparable<K>, V extends Comparable<V>> Set<Entry<K, V>> sortedEntrySetByValue(

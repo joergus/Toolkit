@@ -2,7 +2,7 @@
 package de.wwservices.util;
 
 /**
- * Hilfsklasse für den Umgang mit Strings.
+ * Hilfsklasse fÃ¼r den Umgang mit Strings.
  * 
  * @author joergw
  * 
