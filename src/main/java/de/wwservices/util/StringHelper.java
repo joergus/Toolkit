@@ -1,5 +1,13 @@
+
 package de.wwservices.util;
 
-public class StringHelper {
+/**
+ * Hilfsklasse für den Umgang mit Strings.
+ * 
+ * @author joergw
+ * 
+ */
+public final class StringHelper
+{
 
 }

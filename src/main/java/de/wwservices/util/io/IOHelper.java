@@ -1,3 +1,4 @@
+
 package de.wwservices.util.io;
 
 import java.io.Closeable;
@@ -15,47 +16,74 @@ import java.net.URI;
  * @author joergw
  * 
  */
-public class IOHelper {
+public class IOHelper
+{
+  private static final String DEFAULT_ENCODING = "UTF-8";
+  
 
-    /**
-     * Liest eine Datei von einer URI ein und verwendet dafür UTF-8 encoding.
-     * 
-     * @param fileName
-     * @return
-     * @throws IOException
-     */
-    public static String readFile(URI fileName) throws IOException {
-        Reader inputReader = null;
-        try {
-            FileInputStream in = new FileInputStream(new File(fileName));
-            inputReader = new InputStreamReader(in, "UTF-8");
+  // --------------------------------------------------------------------------
+  
+  /**
+   * Liest eine Datei als String mit dem Default Encoding des IOHelpers ein.
+   * 
+   * @param file die einzulesende Datei.
+   * @return
+   * @throws IOException
+   */
+  public static String readFile(File file) throws IOException
+  {
+    return readFile(file.toURI(), DEFAULT_ENCODING);
+  }
+  
+  /**
+   * Liest eine Datei von einer URI ein und verwendet dafür UTF-8 encoding.
+   * 
+   * @param fileName die URI der Datei.
+   * @return
+   * @throws IOException
+   */
+  public static String readFile(URI fileName, String encoding) throws IOException
+  {
+    Reader inputReader = null;
+    try
+    {
+      FileInputStream in = new FileInputStream(new File(fileName));
+      inputReader = new InputStreamReader(in, encoding);
 
-            StringWriter stringWriter = new StringWriter();
-            char buffer[] = new char[1024];
-            int read = inputReader.read(buffer);
-            while (read != -1) {
-                stringWriter.write(buffer, 0, read);
-                read = inputReader.read(buffer);
-            }
-            return stringWriter.toString();
-        } finally {
-            close(inputReader);
-        }
+      StringWriter stringWriter = new StringWriter();
+      char buffer[] = new char[1024];
+      int read = inputReader.read(buffer);
+      while (read != -1)
+      {
+        stringWriter.write(buffer, 0, read);
+        read = inputReader.read(buffer);
+      }
+      return stringWriter.toString();
     }
-
-    /**
-     * Schließt einen Stream oder File oder andere Objekte die {@link Closeable}
-     * implementieren.
-     * 
-     * @param closeable das zu schließende Objekt
-     */
-    public static final void close(Closeable closeable) {
-        if (closeable != null) {
-            try {
-                closeable.close();
-            } catch (IOException exception) {
-                // :TODO Logging
-            }
-        }
+    finally
+    {
+      close(inputReader);
     }
+  }
+
+  /**
+   * Schließt einen Stream oder File oder andere Objekte die {@link Closeable}
+   * implementieren.
+   * 
+   * @param closeable das zu schließende Objekt
+   */
+  public static final void close(Closeable closeable)
+  {
+    if (closeable != null)
+    {
+      try
+      {
+        closeable.close();
+      }
+      catch (IOException exception)
+      {
+        // :TODO Logging
+      }
+    }
+  }
 }

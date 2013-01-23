@@ -1,3 +1,4 @@
+
 package de.wwservices.util;
 
 import java.util.Collection;
@@ -7,23 +8,26 @@ import java.util.Collection;
  * 
  * @author joergw
  */
-public class CollectionHelper {
+public class CollectionHelper
+{
 
-	/**
-	 * Checks whether the given source collection contains any of the items in the find {@link Collection}.
-	 * 
-	 * @param source
-	 * @param find
-	 * @return
-	 */
-	public static <T> boolean containsAny(Collection<T> source,
-			Collection<T> find) {
-		for (T tofind : find) {
-			if (source.contains(tofind)) {
-				return true;
-			}
-		}
-		return false;
-	}
+  /**
+   * Checks whether the given source collection contains any of the items in the find {@link Collection}.
+   * 
+   * @param source
+   * @param find
+   * @return
+   */
+  public static <T> boolean containsAny(Collection<T> source, Collection<T> find)
+  {
+    for (T tofind : find)
+    {
+      if (source.contains(tofind))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
 
 }
