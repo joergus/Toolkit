@@ -1,7 +1,6 @@
 
-package de.wwservices.util;
+package de.wwservices.util.string;
 
-import de.wwservices.util.string.StringReplacementStrategy;
 
 /**
  * Hilfsklasse für den Umgang mit Strings.

@@ -36,7 +36,7 @@ public class IOHelper
   }
   
   /**
-   * Liest eine Datei von einer URI ein und verwendet daf�r UTF-8 encoding.
+   * Liest eine Datei von einer URI ein und verwendet dafür UTF-8 encoding.
    * 
    * @param fileName die URI der Datei.
    * @return

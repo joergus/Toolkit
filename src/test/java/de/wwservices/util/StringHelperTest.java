@@ -8,6 +8,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import de.wwservices.util.string.GermanUmlautStrategy;
+import de.wwservices.util.string.StringHelper;
 import de.wwservices.util.string.StringReplacementStrategy;
 
 public class StringHelperTest {
