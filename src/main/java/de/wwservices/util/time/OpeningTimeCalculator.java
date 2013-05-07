@@ -2,12 +2,54 @@ package de.wwservices.util.time;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Ermittelt aus der Angabe der einzelnen Tage Bereiche in denen die gleichen Zeiten gelten.
+ * Ergebnis könnte sein: 
+ * - Mo - Fr 10:00 - 18:00
+ * - Sa 10:00 - 13:00
+ * 
+ * @author joergw
+ *
+ */
 public class OpeningTimeCalculator {
 
+    /**
+     * Lokalisierung für die Ausgabe. 
+     * Kann auch genutzt werden um andere
+     * 
+     * @author joergw
+     *
+     */
+    public static class Localisation{
+        public static final Localisation GERMAN_DEFAULT = new Localisation("Mo", "Di", "Mi", "Do", "Fr", "Sa", "So");
+        
+        private Map<Integer, String> dayNames = new HashMap<>();
+        /**
+         * Names of days beginning with Monday!!!
+         */
+        public Localisation(String ... dayNames){
+            int i = 0;
+            for(String name: dayNames){
+                this.dayNames.put(i++, name);
+            }
+        }
+        
+        public String getName(int day){
+            return dayNames.get(day);
+        }
+    }
+    
+    /**
+     * Konfiguration der Tage muss mit dieser Klasse angegeben werden.
+     * 
+     * @author joergw
+     *
+     */
     public static class DayConfig {
         private String openFrom;
         private String openUntil;
@@ -16,7 +58,7 @@ public class OpeningTimeCalculator {
         private int dayOfWeek;
 
         public DayConfig(int dayOfWeek, String openFrom, String openUntil) {
-            this(dayOfWeek, openFrom, openUntil, "", "");
+            this(dayOfWeek, openFrom, openUntil, null, null);
         }
 
         public DayConfig(int dayOfWeek, String openFrom, String openUntil,
@@ -29,19 +71,19 @@ public class OpeningTimeCalculator {
         }
 
         public String getOpenFrom() {
-            return openFrom;
+            return openFrom !=null ? openFrom:"";
         }
 
         public String getOpenUntil() {
-            return openUntil;
+            return openUntil != null ? openUntil:"";
         }
 
         public String getBreakFrom() {
-            return breakFrom;
+            return breakFrom !=null ? breakFrom:"";
         }
 
         public String getBreakUntil() {
-            return breakUntil;
+            return breakUntil != null ? breakUntil : "";
         }
 
         public int getDayOfWeek() {
@@ -49,9 +91,12 @@ public class OpeningTimeCalculator {
         }
 
         public boolean isOpen() {
-            return openFrom != null && !"".equals(openFrom);
+            return !"".equals(getOpenFrom());
         }
         
+        /**
+         * Just implemented for debug purpose
+         */
         @Override
         public String toString() {
             String string = openFrom + " - " + openUntil +" on day "+dayOfWeek;
@@ -59,8 +104,24 @@ public class OpeningTimeCalculator {
         }
 
     }
+    
+    private Localisation localisation = Localisation.GERMAN_DEFAULT;
+    
+    public OpeningTimeCalculator(){
+        
+    }
+    
+    public OpeningTimeCalculator(Localisation localisation){
+        this.localisation = localisation;
+    }
 
-    public static List<List<String>> calculateOpenings(List<DayConfig> openings) {
+    /**
+     * Erzeugt die Öffnungszeiten in einem Anzeige Format.
+     * 
+     * @param openings
+     * @return
+     */
+    public List<List<String>> calculateOpenings(List<DayConfig> openings) {
         Map<Integer, DayConfig> days = prepareMapping(openings);
         List<List<String>> openingRes = new ArrayList<>();
         
@@ -86,7 +147,7 @@ public class OpeningTimeCalculator {
 
     }
 
-    private static Map<Integer, DayConfig> prepareMapping(List<DayConfig> data) {
+    private Map<Integer, DayConfig> prepareMapping(List<DayConfig> data) {
         Map<Integer, DayConfig> days = new TreeMap<>();
         days.put(Calendar.MONDAY, new DayConfig(Calendar.MONDAY, "", ""));
         days.put(Calendar.TUESDAY, new DayConfig(Calendar.TUESDAY, "", ""));
@@ -104,14 +165,13 @@ public class OpeningTimeCalculator {
         return days;
     }
 
-    private static ArrayList<String> generateOpeningVisulization(int daysStart, int daysEnd, DayConfig currentDay) {
-        String[] weekdays = { "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So" };
+    private ArrayList<String> generateOpeningVisulization(int daysStart, int daysEnd, DayConfig currentDay) {
         ArrayList<String> dayList = new ArrayList<String>();
         if (daysStart != daysEnd) {
-            dayList.add(weekdays[daysStart] + "-"
-                    + weekdays[daysEnd] + " ");
+            dayList.add(localisation.getName(daysStart) + "-"
+                    + localisation.getName(daysEnd) + " ");
         } else {
-            dayList.add(weekdays[daysStart] + " ");
+            dayList.add(localisation.getName(daysStart) + " ");
         }
         // if there is no break defined
         if (currentDay.getBreakFrom().equals("")) {
@@ -123,11 +183,11 @@ public class OpeningTimeCalculator {
         return dayList;
     }
     
-    private static DayConfig nextDay(Map<Integer, DayConfig> map, DayConfig current) {
+    private DayConfig nextDay(Map<Integer, DayConfig> map, DayConfig current) {
         return map.get(current.getDayOfWeek() + 1);
     }
     
-    private static boolean sameOpenings(DayConfig config1, DayConfig config2){
+    private boolean sameOpenings(DayConfig config1, DayConfig config2){
         if(config2 == null){
             return false;
         }

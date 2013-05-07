@@ -26,6 +26,8 @@ public class OpeningTimeCalculatorTest {
     private String breakStart = "12:30";
     private String breakEnd = "13:30";
 
+    private OpeningTimeCalculator timeCalc = new OpeningTimeCalculator();
+    
     @Before
     public void before() {
         openings = new ArrayList<OpeningTimeCalculator.DayConfig>();
@@ -33,8 +35,7 @@ public class OpeningTimeCalculatorTest {
 
     @Test
     public void testEmptyOpenings() {
-        List<List<String>> calculateOpenings = OpeningTimeCalculator
-                .calculateOpenings(openings);
+        List<List<String>> calculateOpenings = timeCalc.calculateOpenings(openings);
         Assert.assertNotNull(calculateOpenings);
         Assert.assertTrue(calculateOpenings.isEmpty());
     }
@@ -48,8 +49,7 @@ public class OpeningTimeCalculatorTest {
         setDefaultsOnDay(6);
         setClosedDay(7);
         setClosedDay(1); // Sonntag
-        List<List<String>> calculateOpenings = OpeningTimeCalculator
-                .calculateOpenings(openings);
+        List<List<String>> calculateOpenings = timeCalc.calculateOpenings(openings);
         Assert.assertEquals(1, calculateOpenings.size());
         List<String> list = calculateOpenings.get(0);
         Assert.assertEquals(2, list.size());
@@ -66,8 +66,7 @@ public class OpeningTimeCalculatorTest {
         setDefaultsOnDayWithBreak(6);
         setClosedDay(7);
         setClosedDay(Calendar.SUNDAY); // Sonntag
-        List<List<String>> calculateOpenings = OpeningTimeCalculator
-                .calculateOpenings(openings);
+        List<List<String>> calculateOpenings = timeCalc.calculateOpenings(openings);
         Assert.assertEquals(1, calculateOpenings.size());
         List<String> list = calculateOpenings.get(0);
         Assert.assertEquals(2, list.size());
@@ -84,8 +83,7 @@ public class OpeningTimeCalculatorTest {
         setDefaultsOnDay(6);
         setDefaultsOnDay(7);
         setClosedDay(1); // Sonntag
-        List<List<String>> calculateOpenings = OpeningTimeCalculator
-                .calculateOpenings(openings);
+        List<List<String>> calculateOpenings = timeCalc.calculateOpenings(openings);
         Assert.assertEquals(1, calculateOpenings.size());
         List<String> list = calculateOpenings.get(0);
         Assert.assertEquals(2, list.size());
@@ -102,8 +100,7 @@ public class OpeningTimeCalculatorTest {
         setDefaultsOnDay(6);
         setValuesOnDay(7, "10:00", "13:00");
         setClosedDay(1); // Sonntag
-        List<List<String>> calculateOpenings = OpeningTimeCalculator
-                .calculateOpenings(openings);
+        List<List<String>> calculateOpenings = timeCalc.calculateOpenings(openings);
         Assert.assertEquals(2, calculateOpenings.size());
         List<String> list = calculateOpenings.get(0);
         Assert.assertEquals(2, list.size());
@@ -125,8 +122,7 @@ public class OpeningTimeCalculatorTest {
         setDefaultsOnDayWithBreak(6);
         setValuesOnDay(7, "09:00", "13:00");
         setClosedDay(1); // Sonntag
-        List<List<String>> calculateOpenings = OpeningTimeCalculator
-                .calculateOpenings(openings);
+        List<List<String>> calculateOpenings = timeCalc.calculateOpenings(openings);
         Assert.assertEquals(2, calculateOpenings.size());
         List<String> list = calculateOpenings.get(0);
         Assert.assertEquals(2, list.size());
@@ -148,8 +144,7 @@ public class OpeningTimeCalculatorTest {
         setDefaultsOnDay(6);
         setClosedDay(7);
         setClosedDay(1); // Sonntag
-        List<List<String>> calculateOpenings = OpeningTimeCalculator
-                .calculateOpenings(openings);
+        List<List<String>> calculateOpenings = timeCalc.calculateOpenings(openings);
         Assert.assertEquals(3, calculateOpenings.size());
         List<String> list = calculateOpenings.get(0);
         Assert.assertEquals(2, list.size());
@@ -168,11 +163,11 @@ public class OpeningTimeCalculatorTest {
     }
 
     private void setClosedDay(int day) {
-        setValuesOnDay(day, "", "");
+        setValuesOnDay(day, null, null);
     }
 
     private void setValuesOnDay(int day, String dayStart, String dayEnd) {
-        setValuesOnDay(day, dayStart, dayEnd, "", "");
+        setValuesOnDay(day, dayStart, dayEnd, null, null);
 
     }
 
