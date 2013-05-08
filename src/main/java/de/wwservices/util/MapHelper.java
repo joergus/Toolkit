@@ -58,7 +58,7 @@ public class MapHelper
       if (o1.getValue() != null && o2.getValue() != null)
       {
         int compareTo = o1.getValue().compareTo(o2.getValue());
-        if (compareTo == 0)
+        if (compareTo == 0 && o1.getKey() != null)
         {
           return o1.getKey().compareTo(o2.getKey());
         }

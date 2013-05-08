@@ -99,8 +99,7 @@ public class OpeningTimeCalculator {
          */
         @Override
         public String toString() {
-            String string = openFrom + " - " + openUntil +" on day "+dayOfWeek;
-            return string;
+            return openFrom + " - " + openUntil +" on day "+dayOfWeek;
         }
 
     }
@@ -133,7 +132,7 @@ public class OpeningTimeCalculator {
                 daysEnd++;
             } else {
                 if (currentDay.isOpen()) {
-                    ArrayList<String> dayList = generateOpeningVisulization(
+                    List<String> dayList = generateOpeningVisulization(
                             daysStart, daysEnd, currentDay);
                     openingRes.add(dayList);
                 }
@@ -165,8 +164,8 @@ public class OpeningTimeCalculator {
         return days;
     }
 
-    private ArrayList<String> generateOpeningVisulization(int daysStart, int daysEnd, DayConfig currentDay) {
-        ArrayList<String> dayList = new ArrayList<String>();
+    private List<String> generateOpeningVisulization(int daysStart, int daysEnd, DayConfig currentDay) {
+        List<String> dayList = new ArrayList<String>();
         if (daysStart != daysEnd) {
             dayList.add(localisation.getName(daysStart) + "-"
                     + localisation.getName(daysEnd) + " ");

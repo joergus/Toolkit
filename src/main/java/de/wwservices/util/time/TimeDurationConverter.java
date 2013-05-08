@@ -64,6 +64,10 @@ public class TimeDurationConverter {
             }
             return null;
         }
+        
+        public int getCalcToSmaller() {
+            return calcToSmaller;
+        }
     }
 
     private static class TimeUnitComparator implements Comparator<TimeUnit>, Serializable {
@@ -101,7 +105,7 @@ public class TimeDurationConverter {
      * Setzt die Anzahl der Stunden für die Berechnung
      * @param hour
      */
-    public void setHour(int hour) {
+    public final void setHour(int hour) {
         timeData.put(TimeUnit.HOUR, (long) hour);
     }
 
@@ -109,7 +113,7 @@ public class TimeDurationConverter {
      * Setzt die Anzahl der Minuten für die Berechnung
      * @param minute
      */
-    public void setMinute(int minute) {
+    public final void setMinute(int minute) {
         timeData.put(TimeUnit.MINUTE, (long) minute);
     }
 
@@ -117,7 +121,7 @@ public class TimeDurationConverter {
      * Setzt die Anzahl der Sekunden für die Berechnug
      * @param second
      */
-    public void setSecond(int second) {
+    public final void setSecond(int second) {
         timeData.put(TimeUnit.SECOND, (long) second);
     }
 
@@ -139,7 +143,7 @@ public class TimeDurationConverter {
                 Long long2 = calcTime.get(timeUnit);
                 calcTime.put(timeUnit.next(),
                         ((long1 != null ? long1 : 0) + (long2 != null ? long2
-                                : 0)) * timeUnit.calcToSmaller);
+                                : 0)) * timeUnit.getCalcToSmaller());
             }
 
         }
@@ -149,16 +153,17 @@ public class TimeDurationConverter {
     public static Map<TimeUnit, Long> split(long time, TimeUnit startFrom) {
         TimeUnit current = startFrom;
         Map<TimeUnit, Long> result = new TreeMap<>(new TimeUnitComparator());
+        long workingTime = time;
         if (!current.hasPrevious()) {
             result.put(current, time);
         } else {
             while (current.hasPrevious()) {
                 TimeUnit previous = current.previuos();
-                result.put(current, time % previous.calcToSmaller);
-                time = time / previous.calcToSmaller;
+                result.put(current, workingTime % previous.getCalcToSmaller());
+                workingTime = workingTime / previous.getCalcToSmaller();
                 current = previous;
             }
-            result.put(current, time);
+            result.put(current, workingTime);
         }
         return result;
     }

@@ -14,7 +14,7 @@ import de.wwservices.util.time.TimeDurationConverter.TimeUnit;
  */
 public class TimeDurationPrinter {
 
-    private static Map<TimeUnit, String[]> localisation = defaultLocalisation();
+    private Map<TimeUnit, String[]> localisation = defaultLocalisation();
 
     /**
      * Visulisiert die Dauer bei beliebiger Angabe.
@@ -22,7 +22,7 @@ public class TimeDurationPrinter {
      * @param durationInSeconds
      * @return
      */
-    public static String printDuration(long durationInSeconds,
+    public String printDuration(long durationInSeconds,
             TimeUnit timeUnit) {
         Map<TimeUnit, Long> split = TimeDurationConverter.split(
                 durationInSeconds, timeUnit);
@@ -44,7 +44,7 @@ public class TimeDurationPrinter {
      * @param durationInSeconds
      * @return
      */
-    public static String printDurationFromSeconds(long durationInSeconds) {
+    public String printDurationFromSeconds(long durationInSeconds) {
         return printDuration(durationInSeconds, TimeUnit.SECOND);
     }
 
@@ -54,6 +54,14 @@ public class TimeDurationPrinter {
         map.put(TimeUnit.MINUTE, new String[] { "Minute", "Minuten" });
         map.put(TimeUnit.SECOND, new String[] { "Sekunde", "Sekunden" });
         return map;
+    }
+    
+    /**
+     * Setzt die Daten für die Lokalisierung der Ausgabe.
+     * @param localisation
+     */
+    public void setLocalisation(Map<TimeUnit, String[]> localisation){
+        this.localisation = localisation; 
     }
 
 }
